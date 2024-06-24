@@ -81,7 +81,7 @@ function App() {
       <Route path="/Registration/Device" element={<ProtectedRoute element={DevicePageRegistration} />} />
 
       // Faculty login
-      <Route path="/login" element={<FacultyLogin />} />
+      <Route path="/" element={<FacultyLogin />} />
 
       // Teacher Route
       <Route path="/dashboard/Teacher/:userId" element={<ProtectedRoute element={Teacher_landingPage} />} />

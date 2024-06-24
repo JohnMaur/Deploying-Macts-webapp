@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('userType', userType);
     setIsLoggedIn(false);
     setUserType(null);
-    navigate('/login');
+    navigate('/');
   };
 
   return (
