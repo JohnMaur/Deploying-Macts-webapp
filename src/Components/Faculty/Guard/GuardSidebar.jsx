@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { SolutionOutlined, LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { SolutionOutlined, LogoutOutlined, AppstoreOutlined, MobileOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext';
 
@@ -52,6 +52,9 @@ const GuardSidebar = ({ collapsed }) => {
         </Menu.Item>
         <Menu.Item key="/Facility/Gatepass/Report" icon={<SolutionOutlined />}>
           <Link to="/Facility/Gatepass/Report">Report</Link>
+        </Menu.Item>
+        <Menu.Item key="/Gatepass/MobileApp/link" icon={<MobileOutlined />}>
+          <Link to="/Gatepass/MobileApp/link">Download Mobile App</Link>
         </Menu.Item>
 
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>

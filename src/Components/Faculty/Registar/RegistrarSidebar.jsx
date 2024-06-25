@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { SolutionOutlined, LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { SolutionOutlined, LogoutOutlined, AppstoreOutlined, MobileOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext';
 
@@ -54,6 +54,10 @@ const RegistrarSidebar = ({ collapsed }) => {
           <Link to="/Facility/Registrar/Report">Report</Link>
         </Menu.Item>
 
+        <Menu.Item key="/MobileApp/Link" icon={<MobileOutlined />}>
+          <Link to="/MobileApp/Link">Download Mobile App</Link>
+        </Menu.Item>
+      
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
           Log out
         </Menu.Item>

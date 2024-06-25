@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { IdcardOutlined, UserAddOutlined, SolutionOutlined, LogoutOutlined, FileDoneOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { IdcardOutlined, UserAddOutlined, SolutionOutlined, LogoutOutlined, FileDoneOutlined, AppstoreOutlined, MobileOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
 
@@ -100,9 +100,9 @@ const Sidebar = ({ collapsed }) => {
           <Link to="/Registration/Device">Device Registration</Link>
         </Menu.Item>
 
-        {/* <Menu.Item key="/logout" icon={<LogoutOutlined />}>
-        <Link to="/login/admin">Logout</Link>
-        </Menu.Item> */}
+        <Menu.Item key="/Download/mobileApplication" icon={<MobileOutlined />}>
+          <Link to="/Download/mobileApplication">Download Mobile App</Link>
+        </Menu.Item>
 
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
           Log out

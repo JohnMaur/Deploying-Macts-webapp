@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { IdcardOutlined, SolutionOutlined, LogoutOutlined, AppstoreOutlined } from '@ant-design/icons';
+import { IdcardOutlined, SolutionOutlined, LogoutOutlined, AppstoreOutlined, MobileOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../../AuthContext';
 
@@ -62,10 +62,10 @@ const TeacherSidebar = ({ collapsed }) => {
         <Menu.Item key={`/Faculty/RFID_Registration/${userId}`} icon={<IdcardOutlined />}>
           <Link to={`/Faculty/RFID_Registration/${userId}`}>RFID Registration</Link>
         </Menu.Item>
- 
-        {/* <Menu.Item key="/login" icon={<LogoutOutlined />}>
-          <Link to="/login">Log out</Link>
-        </Menu.Item> */}
+
+        <Menu.Item key="/Faculty/MobileApp/:userId" icon={<MobileOutlined />}>
+          <Link to="/Faculty/MobileApp/:userId">Download Mobile App</Link>
+        </Menu.Item>
 
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
           Log out
