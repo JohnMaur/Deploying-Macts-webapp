@@ -6,6 +6,7 @@ import { AuthContext } from '../AuthContext';
 function FacultyLogin() {
   const [facultyUser, setFacultyUser] = useState('');
   const [facultyPass, setFacultyPass] = useState('');
+  const [loading, setLoading] = useState(false);  // New loading state
   const { isLoggedIn, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -35,6 +36,7 @@ function FacultyLogin() {
 
   const facultyLogin = async (event) => {
     event.preventDefault();
+    setLoading(true);  // Set loading to true when the request starts
     try {
       const response = await axios.post('https://macts-backend-webapp.onrender.com/faculty', {
         faculty_user: facultyUser,
@@ -55,6 +57,8 @@ function FacultyLogin() {
       } else {
         console.error('Error logging in:', error);
       }
+    } finally {
+      setLoading(false);  // Set loading to false when the request ends
     }
   };
 
@@ -99,16 +103,14 @@ function FacultyLogin() {
               </div>
               <div className="field btn">
                 <div className="btn-layer"></div>
-                <input type="submit" value="Login" />
+                <input type="submit" value={loading ? "Loading..." : "Login"} disabled={loading} />
               </div>
               <div className="signup-link">
                 Developed by <span className="name-span">@johnmaur8</span>
               </div>
             </form>
           </div>
-
         </div>
-
       </div>
     </div>
   );

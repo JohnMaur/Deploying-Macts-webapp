@@ -7,6 +7,7 @@ import { AuthContext } from '../AuthContext';
 function AdminLogin() {
   const [adminUsername, setAdminUsername] = useState('');
   const [adminPassword, setAdminPassword] = useState('');
+  const [loading, setLoading] = useState(false); // New loading state
   const { isLoggedIn, login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -18,6 +19,7 @@ function AdminLogin() {
 
   const adminLogin = async (event) => {
     event.preventDefault();
+    setLoading(true); // Set loading to true when the request starts
     try {
       const response = await axios.post('https://macts-backend-webapp.onrender.com/admin', {
         admin_username: adminUsername,
@@ -32,6 +34,8 @@ function AdminLogin() {
     } catch (error) {
       console.error('Error logging in:', error);
       alert('Error logging in. Please try again.');
+    } finally {
+      setLoading(false); // Set loading to false when the request ends
     }
   };
 
@@ -43,48 +47,46 @@ function AdminLogin() {
         </div>
 
         <div className='form-container'>
-
-          <div class="slide-controls">
+          <div className="slide-controls">
             <input type="radio" name="slide" id="login"/>
             <input type="radio" name="slide" id="signup" />
-            <label for="login" class="slide login">MACTs</label>
-            <label for="signup" class="slide signup">Admin</label>
-            <div class="slider-tab"></div>
+            <label htmlFor="login" className="slide login">MACTs</label>
+            <label htmlFor="signup" className="slide signup">Admin</label>
+            <div className="slider-tab"></div>
           </div>
 
-        <div className="form-inner">
-          <form onSubmit={adminLogin} className="login">
-            <div className="field">
-              <input
-                type="text"
-                placeholder="Username"
-                value={adminUsername}
-                onChange={(e) => setAdminUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="field">
-              <input
-                type="password"
-                placeholder="Password"
-                value={adminPassword}
-                onChange={(e) => setAdminPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="pass-link">
-              <a href="#">Forgot password?</a>
-            </div>
-            <div className="field btn">
-              <div className="btn-layer"></div>
-              <input type="submit" value="Login" />
-            </div>
-            <div className="signup-link">
-              Developed by <span className="name-span">@johnmaur8</span>
-            </div>
-          </form>
-        </div>
-
+          <div className="form-inner">
+            <form onSubmit={adminLogin} className="login">
+              <div className="field">
+                <input
+                  type="text"
+                  placeholder="Username"
+                  value={adminUsername}
+                  onChange={(e) => setAdminUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="field">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="pass-link">
+                <a href="#">Forgot password?</a>
+              </div>
+              <div className="field btn">
+                <div className="btn-layer"></div>
+                <input type="submit" value={loading ? "Loading..." : "Login"} disabled={loading} />
+              </div>
+              <div className="signup-link">
+                Developed by <span className="name-span">@johnmaur8</span>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
