@@ -10,7 +10,7 @@ const Teacher_RFID_page = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
     <TeacherSidebar collapsed={collapsed} />
-    <Layout>
+    <Layout style={{ maxHeight: "100vh", overflowY: "auto"  }}>
       <CustomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <h1 className="mt-5 mb-2 text-2xl font-bold ml-10 ">RFID Registration</h1>
         <RFID_Content />

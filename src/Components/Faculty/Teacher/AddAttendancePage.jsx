@@ -13,7 +13,7 @@ const FacultyAddAttendancePage = () => {
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <TeacherSidebar collapsed={collapsed} />
-      <Layout style={{ maxHeight: '100vh' }}>
+      <Layout style={{ maxHeight: '100vh', overflowY: "auto"  }}>
         <CustomHeader collapsed={collapsed} setCollapsed={setCollapsed} />
         <FacultyTeacherContent colorBgContainer={colorBgContainer} borderRadiusLG={borderRadiusLG} />
       </Layout>
