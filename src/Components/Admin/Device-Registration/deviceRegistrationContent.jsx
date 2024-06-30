@@ -16,7 +16,6 @@ const DeviceRegistrationContent = ({ colorBgContainer, borderRadiusLG }) => {
         background: colorBgContainer,
         borderRadius: borderRadiusLG,
         overflowY: 'auto', 
-        overflowX: "auto",
       }}
     >
       <div >
