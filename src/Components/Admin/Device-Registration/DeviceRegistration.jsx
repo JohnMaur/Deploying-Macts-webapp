@@ -89,7 +89,7 @@ const DeviceRegistration = () => {
 
   return (
     <div className='flex flex-col md:flex-row h-full'>
-      <div className="bg-slate-50 flex-1 my-10 mx-5 ml-10 shadow-md rounded-lg md:max-h-[370px] md:overflow-y-auto">
+      <div className="bg-slate-50 flex-1 my-10 mx-5 ml-10 shadow-md rounded-lg md:max-h-[370px] md:overflow-y-auto max-w-96">
         <h1 className='text-lg font-bold mx-5 mt-5 mb-2'>RFID Tag History</h1>
         <ul>
           {tagHistory.map((entry, index) => (
