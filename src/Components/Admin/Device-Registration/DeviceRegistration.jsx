@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
-import { Layout, message } from 'antd'; // Import message from antd for displaying alerts
+import { Layout, message } from 'antd';
 import axios from 'axios';
+import copyIcon from "../../../assets/copy.png";
 
 const { Content: AntdContent } = Layout;
-// const serverUrl = 'http://localhost:3232'; 
-const serverUrl = ('wss://macts-backend-device-registration.onrender.com');
+const serverUrl = 'wss://macts-backend-device-registration.onrender.com';
 
 const DeviceRegistration = () => {
   const [tagHistory, setTagHistory] = useState([]);
   const [deviceInfo, setDeviceInfo] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [deviceCodeValue, setDeviceCodeValue] = useState('');
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
-    // Connect to the Socket.IO server
     const socket = socketIOClient(serverUrl);
 
-    // Listen for 'tagData' events from the server
     socket.on('tagData', receivedData => {
-      // Update the tagHistory state with the new tag data and timestamp
       setTagHistory(prevHistory => [
         ...prevHistory,
         { tagData: receivedData, timestamp: new Date().toLocaleTimeString() }
       ]);
     });
 
-    // Clean up the socket connection on component unmount
     return () => {
       socket.disconnect();
     };
@@ -45,34 +42,30 @@ const DeviceRegistration = () => {
 
   const handleRegister = async () => {
     try {
-      // Ensure both serial number and device code value are available
       if (!searchValue || !deviceCodeValue) {
         console.error('Serial number and device code value are required.');
         message.error('Serial number and device code value are required.');
         return;
       }
 
-      // Make a POST request to insert the device code value into the database
       const response = await axios.post(`https://macts-backend-webapp.onrender.com/deviceRegistration/${searchValue}`, {
         deviceCode: deviceCodeValue
       });
 
       if (response.data.error === 'Duplicate tagValue') {
-        // Show alert for duplicate tag value
         message.error({
           content: 'The Device code Value has already been registered.',
-          duration: 3, // Duration in seconds
+          duration: 3,
           style: {
-            fontSize: '16px', // Adjust font size
+            fontSize: '16px',
           },
         });
       } else {
-        // Show success alert for successful registration
         message.success({
           content: 'Your device registered successfully!',
-          duration: 3, // Duration in seconds
+          duration: 3,
           style: {
-            fontSize: '20px', // Adjust font size
+            fontSize: '20px',
           },
         });
       }
@@ -82,6 +75,18 @@ const DeviceRegistration = () => {
     }
   };
 
+  const handleSetDeviceCode = (tagData) => {
+    setDeviceCodeValue(tagData);
+  };
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
+
   return (
     <div className='flex flex-col md:flex-row h-full'>
       <div className="bg-slate-50 flex-1 my-10 mx-5 ml-10 shadow-md rounded-lg md:max-h-[370px] md:overflow-y-auto">
@@ -89,8 +94,29 @@ const DeviceRegistration = () => {
         <ul>
           {tagHistory.map((entry, index) => (
             <li key={index}>
-              <div className='flex ml-5 text-lg'>
-                <p className="w-1/2 mb-1">Tag Data: <span className='font-bold'>{entry.tagData}</span> </p>
+              <div className='flex ml-5 text-base items-center justify-between mr-5'>
+                <div className='flex items-center'>
+                  <p className="mb-1">Tag Data: <span className='font-bold'>{entry.tagData}</span> </p>
+                  <div className="relative inline-block">
+                    <button
+                      className="ml-1 w-5 h-5 hover:bg-gray-200 hover:rounded-md hover:shadow-md"
+                      onClick={() => handleSetDeviceCode(entry.tagData)}
+                      onMouseEnter={() => handleMouseEnter(index)}
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <img
+                        src={copyIcon}
+                        alt="Copy Icon"
+                      />
+                    </button>
+                    {hoveredIndex === index && (
+                      <span className="w-[7.4rem] z-50 absolute left-0 mt-8 py-1 px-2 bg-gray-800 text-white text-xs rounded-md shadow-md">
+                        Set Device Code
+                      </span>
+                    )}
+                  </div>
+                </div>
+
                 <p>Time: <span className='font-bold'>{entry.timestamp}</span></p>
               </div>
             </li>
@@ -114,7 +140,7 @@ const DeviceRegistration = () => {
           <input
             className="w-full mb-4 py-1.5 rounded-lg px-5 border-black border-solid border-[1px]"
             type="text"
-            placeholder='Insert your RFID tag'
+            placeholder='Insert your Device Code'
             value={deviceCodeValue}
             onChange={(e) => setDeviceCodeValue(e.target.value)}
           />
