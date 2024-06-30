@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import { Layout, message } from 'antd';
+import copyIcon from "../../../assets/copy.png"
 import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
-const serverUrl = ('wss://macts-backend-rfid-registration.onrender.com');
+const serverUrl = 'wss://macts-backend-rfid-registration.onrender.com';
 
 const RFID_Content = ({ borderRadiusLG }) => {
   const [tagHistory, setTagHistory] = useState([]);
   const [studentInfo, setStudentInfo] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [rfidTagValue, setRfidTagValue] = useState('');
+  const [hoveredIndex, setHoveredIndex] = useState(null); // State to track hovered item index
 
   useEffect(() => {
     // Connect to the Socket.IO server
@@ -72,10 +74,27 @@ const RFID_Content = ({ borderRadiusLG }) => {
             fontSize: '20px', // Adjust font size
           },
         });
+
+        // Clear input fields and reset state after successful registration
+        setSearchValue('');
+        setRfidTagValue('');
+        setStudentInfo([]);
       }
     } catch (error) {
       console.error('Error inserting RFID tag value:', error);
     }
+  };
+
+  const handleSetRfidTag = (tagData) => {
+    setRfidTagValue(tagData);
+  };
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index); // Set the index of the hovered item
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredIndex(null); // Reset hovered index when mouse leaves
   };
 
   return (
@@ -85,10 +104,9 @@ const RFID_Content = ({ borderRadiusLG }) => {
         minHeight: 420,
         background: "white",
         borderRadius: borderRadiusLG,
-        overflowX: 'auto', 
+        overflowX: 'auto',
       }}
     >
-      {/* <div className='flex sm:flex-col lg:flex-row h-full'> */}
       <div className='lg:flex lg:flex-row h-full sm:flex-col '>
         <div className="
           sm:max-h-[25rem] min-w-20rem min-h-20rem
@@ -98,8 +116,28 @@ const RFID_Content = ({ borderRadiusLG }) => {
           <ul>
             {tagHistory.map((entry, index) => (
               <li key={index}>
-                <div className='flex ml-5 text-lg'>
-                  <p className="w-1/2 mb-1">Tag Data: <span className='font-bold'>{entry.tagData}</span> </p>
+                <div className='flex ml-5 text-base items-center justify-between mr-5'>
+                  <div className='flex items-center'>
+                    <p className="mb-1">Tag Data: <span className='font-bold'>{entry.tagData}</span></p>
+                    <div className="relative inline-block">
+                      <button
+                        className="ml-1 w-5 h-5 hover:bg-gray-200 hover:rounded-md hover:shadow-md"
+                        onClick={() => handleSetRfidTag(entry.tagData)}
+                        onMouseEnter={() => handleMouseEnter(index)} // Pass index to handler
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <img
+                          src={copyIcon}
+                          alt="Copy Icon"
+                        />
+                      </button>
+                      {hoveredIndex === index && ( // Render message only if hoveredIndex matches current index
+                        <span className="w-16 absolute left-0 mt-6 py-1 px-2 bg-gray-800 text-white text-xs rounded-md shadow-md">
+                          Set RFID
+                        </span>
+                      )}
+                    </div>
+                  </div>
                   <p>Time: <span className='font-bold'>{entry.timestamp}</span></p>
                 </div>
               </li>
@@ -109,10 +147,10 @@ const RFID_Content = ({ borderRadiusLG }) => {
 
         <div className="flex-1 md:h-5/6 my-10 mx-5 mr-10 flex sm:max-h-[22rem] lg:max-h-[25rem]">
           <div className="flex-1 md:overflow-y-auto h-[95%] mx-8 bg-slate-50 shadow-md p-5 px-10 rounded-lg">
-            <p className='text-xl md:text-2xl lg:text-3xl'>Name: <span className='font-bold'>{studentInfo.length > 0 ? `${studentInfo[0].studentInfo_first_name} ${studentInfo[0].studentInfo_middle_name} ${studentInfo[0].studentInfo_last_name}` : ''}</span></p>
-            <p className='text-xl md:text-2xl lg:text-3xl'>TUPT ID: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_tuptId : ''}</span></p>
-            <p className='text-xl md:text-2xl lg:text-3xl'>Course: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_course : ''}</span></p>
-            <p className='text-xl md:text-2xl lg:text-3xl'>Section: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_section : ''}</span></p>
+            <p className='text-lg md:text-xl lg:text-2xl'>Name: <span className='font-bold'>{studentInfo.length > 0 ? `${studentInfo[0].studentInfo_first_name} ${studentInfo[0].studentInfo_middle_name} ${studentInfo[0].studentInfo_last_name}` : ''}</span></p>
+            <p className='text-lg md:text-xl lg:text-2xl'>TUPT ID: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_tuptId : ''}</span></p>
+            <p className='text-lg md:text-xl lg:text-2xl'>Course: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_course : ''}</span></p>
+            <p className='text-lg md:text-xl lg:text-2xl'>Section: <span className='font-bold'>{studentInfo.length > 0 ? studentInfo[0].studentInfo_section : ''}</span></p>
             <input
               className="w-full my-4 py-2 md:py-1.5 lg:py-2 rounded-lg px-5 border-black border-solid border-[1px]"
               type="text"
