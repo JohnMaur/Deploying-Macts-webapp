@@ -12,7 +12,7 @@ const RFID_Content = ({ borderRadiusLG }) => {
   const [studentInfo, setStudentInfo] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [rfidTagValue, setRfidTagValue] = useState('');
-  const [hoveredIndex, setHoveredIndex] = useState(null); // State to track hovered item index
+  const [hoveredIndex, setHoveredIndex] = useState(null); 
 
   useEffect(() => {
     // Connect to the Socket.IO server

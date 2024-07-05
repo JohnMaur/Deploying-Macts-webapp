@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import AttendanceReportTable from './Attendance-report-table';
 import AttendanceReportPDF from '../../PDF-Generation/AttendanceReportPDF';
+import ManualAddingAttendancePage from './ManualAddingPage';
 
 const { Content: AntdContent } = Layout;
 
@@ -52,6 +53,7 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
     >
       <div className="mb-6">
         <AttendanceReportTable />
+        <ManualAddingAttendancePage />
       </div>
 
       <div className="mb-6">
@@ -82,6 +84,7 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
           )
         )}
       </div>
+      
     </AntdContent>
   );
 };

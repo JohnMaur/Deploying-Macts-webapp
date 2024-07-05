@@ -116,7 +116,7 @@ const AttendanceReportTable = () => {
         const transformedData = responseData.map((item) => ({
           key: item.id,
           tuptId: item.attendance_tupId,
-          name: item.attendance_firstName,
+          name: `${item.attendance_firstName} ${item.attendance_middleName} ${item.attendance_Lastname}`,
           attendanceDescription: item.attendance_description, // Change this line
           code: item.attendance_code,
           course: item.attendance_course,
@@ -134,7 +134,12 @@ const AttendanceReportTable = () => {
     };
 
     fetchData();
+
+    const interval = setInterval(fetchData, 5000); // Fetch data every 5 seconds
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [attendance_code]); // Fetch data whenever attendance_code changes
+
 
   useEffect(() => {
     // Filter data based on search text
