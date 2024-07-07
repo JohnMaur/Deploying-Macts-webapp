@@ -36,11 +36,11 @@ const dragActiveStyle = (dragState, id) => {
     style =
       direction === 'right'
         ? {
-          borderRight: '1px dashed gray',
-        }
+            borderRight: '1px dashed gray',
+          }
         : {
-          borderLeft: '1px dashed gray',
-        };
+            borderLeft: '1px dashed gray',
+          };
   }
   return style;
 };
@@ -60,10 +60,10 @@ const TableHeaderCell = (props) => {
     cursor: 'move',
     ...(isDragging
       ? {
-        position: 'relative',
-        zIndex: 9999,
-        userSelect: 'none',
-      }
+          position: 'relative',
+          zIndex: 9999,
+          userSelect: 'none',
+        }
       : {}),
     ...dragActiveStyle(dragState, props.id),
   };
@@ -110,10 +110,10 @@ const FacultyAttendanceReportTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`https://macts-backend-webapp.onrender.com/attendance/report/${attendance_code}`);
+        const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendance/report/${attendance_code}`);
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
-          key: item.id, 
+          key: item.id,
           tuptId: item.attendance_tupId,
           name: item.attendance_firstName,
           attendanceDescription: item.attendance_description,
@@ -132,8 +132,11 @@ const FacultyAttendanceReportTable = () => {
     };
 
     fetchData();
-  }, [attendance_code]); // Fetch data whenever attendance_code changes
 
+    // Set up interval to fetch data every 5 seconds
+    const interval = setInterval(fetchData, 5000); // 5 seconds
+    return () => clearInterval(interval); // Clean up interval on unmount
+  }, [attendance_code]); // Fetch data initially and whenever attendance_code changes
 
   useEffect(() => {
     // Filter data based on search text
@@ -146,7 +149,6 @@ const FacultyAttendanceReportTable = () => {
     // Reverse the filtered array to ensure the latest data is displayed first
     setFilteredData(filtered.reverse());
   }, [searchText, data]);
-  
 
   const handleSearch = () => {
     // Triggered when the search button is clicked

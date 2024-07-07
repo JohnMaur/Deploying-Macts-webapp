@@ -107,7 +107,7 @@ const RegistrarTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try { 
-        const response = await axios.get('https://macts-backend-webapp.onrender.com/Registrar-Report');
+        const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/Registrar-Report');
         const responseData = response.data;
         const transformedData = responseData.map((item, index) => ({
           key: `${index + 1}`,

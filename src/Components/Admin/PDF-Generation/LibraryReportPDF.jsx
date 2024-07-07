@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
   },
-
   text: {
     fontSize: 10,
   },
   tableCol: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -76,25 +78,26 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
   },
-  // Specific width for each column
-  // Adjust according to your requirements
   tableCol1: {
-    width: '16%',
+    width: '5%',
   },
   tableCol2: {
-    width: '20%',
-  },
-  tableCol3: {
     width: '16%',
   },
+  tableCol3: {
+    width: '21%',
+  },
   tableCol4: {
-    width: '10%',
+    width: '16%',
   },
   tableCol5: {
-    width: '19%',
+    width: '10%',
   },
   tableCol6: {
-    width: '19%',
+    width: '16%',
+  },
+  tableCol7: {
+    width: "16%"
   },
 });
 
@@ -109,16 +112,24 @@ const LibraryReportPDF = ({ data, selectedDate }) => {
     );
   }
 
-  const tableData = data.map((item) => [
+  // Sort data based on lastname in ascending order
+  const sortedData = data.sort((a, b) => {
+    if (a.library_lastName < b.library_lastName) return -1;
+    if (a.library_lastName > b.library_lastName) return 1;
+    return 0;
+  });
+
+  const tableData = sortedData.map((item, index) => [
+    index + 1,  // Auto-increment number
     item.library_tupId,
-    `${item.library_firstName} ${item.library_middleName} ${item.library_lastName}`,
+    `${item.library_lastName}, ${item.library_firstName} ${item.library_middleName}`,
     item.library_course,
     item.library_section,
     item.library_InHistoryDate,
     item.library_OutHistoryDate,
   ]);
 
-  const tableHeader = ['TUPT ID', 'Name', 'Course', 'Section', 'Time In', 'Time Out'];
+  const tableHeader = ['No', 'TUPT ID', 'Name', 'Course', 'Section', 'Time In', 'Time Out'];
 
   return (
     <Document>
@@ -127,7 +138,7 @@ const LibraryReportPDF = ({ data, selectedDate }) => {
           <Image style={styles.tuplogo} src={tupLogo} />
           <View>
             <Text style={styles.tupheader}>Technological University of the Philippines</Text>
-            <View style={{justifyContent: "center", alignItems: "center"}}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
               <Text style={styles.tupsubheader}>Taguig Campus</Text>
             </View>
           </View>

@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
   },
-
   text: {
     fontSize: 10,
   },
   tableCol: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -76,22 +78,23 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
   },
-  // Specific width for each column
-  // Adjust according to your requirements
   tableCol1: {
-    width: '16%',
+    width: '5%',
   },
   tableCol2: {
-    width: '32%',
-  },
-  tableCol3: {
     width: '16%',
   },
+  tableCol3: {
+    width: '27%',
+  },
   tableCol4: {
-    width: '12%',
+    width: '16%',
   },
   tableCol5: {
-    width: '24%',
+    width: '12%',
+  },
+  tableCol6: {
+    width: "24%",
   },
 });
 
@@ -106,15 +109,25 @@ const RegistrarReportPDF = ({ data, selectedDate }) => {
     );
   }
 
-  const tableData = data.map((item) => [
+  // Sort data based on name (lastname, firstname, middlename)
+  const sortedData = data.sort((a, b) => {
+    const nameA = `${a.registrar_lastname}, ${a.registrar_firstname} ${a.registrar_middlename}`;
+    const nameB = `${b.registrar_lastname}, ${b.registrar_firstname} ${b.registrar_middlename}`;
+    if (nameA < nameB) return -1;
+    if (nameA > nameB) return 1;
+    return 0;
+  });
+
+  const tableData = sortedData.map((item, index) => [
+    index + 1,  // Auto-increment number
     item.registrar_tupID,
-    `${item.registrar_firstname} ${item.registrar_middlename} ${item.registrar_lastname}`,
+    `${item.registrar_lastname}, ${item.registrar_firstname} ${item.registrar_middlename}`,
     item.registrar_course,
     item.registrar_section,
     item.registrar_taphistoryDate,
   ]);
 
-  const tableHeader = ['TUPT ID', 'Name', 'Course', 'Section', 'Date'];
+  const tableHeader = ['No', 'TUPT ID', 'Name', 'Course', 'Section', 'Date'];
 
   return (
     <Document>
@@ -123,7 +136,7 @@ const RegistrarReportPDF = ({ data, selectedDate }) => {
           <Image style={styles.tuplogo} src={tupLogo} />
           <View>
             <Text style={styles.tupheader}>Technological University of the Philippines</Text>
-            <View style={{justifyContent: "center", alignItems: "center"}}>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
               <Text style={styles.tupsubheader}>Taguig Campus</Text>
             </View>
           </View>

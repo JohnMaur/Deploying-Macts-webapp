@@ -4,13 +4,13 @@ import userImg from '../../assets/user.png';
 import socketIOClient from 'socket.io-client';
 
 // RFID tag servers
-const RegistrarRFIDserver = 'wss://macts-backend-registrar.onrender.com';
-const attendanceRFIDServer = 'wss://macts-backend-attendance.onrender.com';
-const libraryRFIDserver = 'wss://macts-backend-library.onrender.com';
-const gymRFIDserver = 'wss://macts-backend-gym.onrender.com';
-const gatepassRFIDserver = 'wss://macts-backend-gatepass.onrender.com';
+const RegistrarRFIDserver = 'wss://macts-backend-registrar-production.up.railway.app';
+const attendanceRFIDServer = 'wss://macts-attendance-production.up.railway.app';
+const libraryRFIDserver = 'wss://macts-backend-library-production.up.railway.app';
+const gymRFIDserver = 'wss://macts-backend-gym-production.up.railway.app';
+const gatepassRFIDserver = 'wss://macts-backend-gatepass-production.up.railway.app';
 
-const studentInfoServerUrl = 'https://macts-backend-webapp.onrender.com';
+const studentInfoServerUrl = 'https://macts-backend-webapp-production-0bd2.up.railway.app';
 
 const { Content: AntdContent } = Layout;
 const { Title, Text } = Typography;

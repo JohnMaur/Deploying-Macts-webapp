@@ -21,7 +21,7 @@ function AdminLogin() {
     event.preventDefault();
     setLoading(true); // Set loading to true when the request starts
     try {
-      const response = await axios.post('https://macts-backend-webapp.onrender.com/admin', {
+      const response = await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/admin', {
         admin_username: adminUsername,
         admin_password: adminPassword,
       });

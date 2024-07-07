@@ -111,7 +111,7 @@ const AttendanceReportTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.post(`https://macts-backend-webapp.onrender.com/attendance/report/${attendance_code}`);
+        const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendance/report/${attendance_code}`);
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
           key: item.id,

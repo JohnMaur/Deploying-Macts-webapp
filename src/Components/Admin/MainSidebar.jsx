@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Menu, Layout } from 'antd';
-import { IdcardOutlined, UserAddOutlined, SolutionOutlined, LogoutOutlined, FileDoneOutlined, AppstoreOutlined, MobileOutlined } from '@ant-design/icons';
+import { IdcardOutlined, UserAddOutlined, SolutionOutlined, LogoutOutlined, FileDoneOutlined, AppstoreOutlined, MobileOutlined, WifiOutlined } from '@ant-design/icons';
 import { Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../../AuthContext';
 
@@ -103,6 +103,10 @@ const Sidebar = ({ collapsed }) => {
         <Menu.Item key="/Download/mobileApplication" icon={<MobileOutlined />}>
           <Link to="/Download/mobileApplication">Download Mobile App</Link>
         </Menu.Item>
+
+        {/* <Menu.Item key="/Change/configuration" icon={<WifiOutlined />}>
+          <Link to="/Change/configuration">Change WiFi Info</Link>
+        </Menu.Item> */}
 
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>
           Log out

@@ -7,6 +7,7 @@ import moment from 'moment';
 import { useParams } from 'react-router-dom';
 import FacultyAttendanceReportTable from './Attendance-report-table';
 import AttendanceReportPDF from "../../../Admin/PDF-Generation/AttendanceReportPDF"
+import ManualAddingAttendancePage from '../../../Admin/Attendance/Report/ManualAddingPage';
 
 const { Content: AntdContent } = Layout;
 
@@ -20,7 +21,7 @@ const FacultyAttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
   const fetchData = (date) => {
     setLoading(true); // Set loading state to true
     const formattedDate = moment(date).format('YYYY-MM-DD'); // Format the selected date
-    fetch(`https://macts-backend-webapp.onrender.com/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
+    fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
       .then((response) => response.json()) // Parse JSON response
       .then((data) => {
         setData(data); // Set the data to state
@@ -31,7 +32,7 @@ const FacultyAttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
         setLoading(false); // Set loading state to false
       });
   };
-
+  
   // Use effect to fetch data when selectedDate or attendance_code changes
   useEffect(() => {
     fetchData(selectedDate);
@@ -52,6 +53,7 @@ const FacultyAttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
     >
       <div className="mb-6">
         <FacultyAttendanceReportTable />
+        <ManualAddingAttendancePage />
       </div>
 
       <div className="mb-6">

@@ -18,7 +18,7 @@ const GymRegistration = ({ borderRadiusLG }) => {
     }
 
     // Proceed with signup
-    fetch('https://macts-backend-webapp.onrender.com/GymSignUp', {
+    fetch('https://macts-backend-webapp-production-0bd2.up.railway.app/GymSignUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -34,7 +34,7 @@ const ManualAddingAttendance = ({ isOpen, onRequestClose }) => {
     }
 
     try {
-      const response = await axios.get(`https://macts-backend-webapp.onrender.com/studentinfo/${tuptId}`);
+      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentinfo/${tuptId}`);
       setStudentInfo(response.data);
     } catch (error) {
       console.error('Error fetching student info:', error);
@@ -67,7 +67,7 @@ const ManualAddingAttendance = ({ isOpen, onRequestClose }) => {
       };
 
       try {
-        await axios.post('https://macts-backend-webapp.onrender.com/Manual/attendance', attendanceData);
+        await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Manual/attendance', attendanceData);
 
         // Show success message
         message.success({

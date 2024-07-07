@@ -10,12 +10,6 @@ const ManualAddingAttendancePage = () => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-
-    // Clear inputs
-    setTuptId('');
-    setAttendanceDescription('');
-    setDate(new Date());
-    setStudentInfo(null);
   };
 
   return (

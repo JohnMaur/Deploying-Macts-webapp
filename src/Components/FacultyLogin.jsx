@@ -38,7 +38,7 @@ function FacultyLogin() {
     event.preventDefault();
     setLoading(true);  // Set loading to true when the request starts
     try {
-      const response = await axios.post('https://macts-backend-webapp.onrender.com/faculty', {
+      const response = await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/faculty', {
         faculty_user: facultyUser,
         faculty_pass: facultyPass,
       });

@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   tupsubheader: {
     fontSize: 14,
     color: '#9D192E',
-    textAlign: 'center',  
+    textAlign: 'center',
     marginTop: 0,
     opacity: 0.7,
   },
@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
   },
-
   text: {
     fontSize: 10,
   },
   tableCol: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -76,22 +78,23 @@ const styles = StyleSheet.create({
     padding: 5,
     textAlign: 'center',
   },
-  // Specific width for each column
-  // Adjust according to your requirements
   tableCol1: {
-    width: '16%',
+    width: '5%',
   },
   tableCol2: {
-    width: '32%',
-  },
-  tableCol3: {
     width: '16%',
   },
+  tableCol3: {
+    width: '27%',
+  },
   tableCol4: {
-    width: '12%',
+    width: '16%',
   },
   tableCol5: {
-    width: '24%',
+    width: '12%',
+  },
+  tableCol6: {
+    width: "24%",
   },
 });
 
@@ -106,15 +109,23 @@ const GatepassPDF = ({ data, selectedDate }) => {
     );
   }
 
-  const tableData = data.map((item) => [
+  // Sort data based on lastname in ascending order
+  const sortedData = data.sort((a, b) => {
+    if (a.gatepass_lastname < b.gatepass_lastname) return -1;
+    if (a.gatepass_lastname > b.gatepass_lastname) return 1;
+    return 0;
+  });
+
+  const tableData = sortedData.map((item, index) => [
+    index + 1,  // Auto-increment number
     item.gatepass_tupID,
-    `${item.gatepass_firstname} ${item.gatepass_middlename} ${item.gatepass_lastname}`,
+    `${item.gatepass_lastname}, ${item.gatepass_firstname} ${item.gatepass_middlename}`,
     item.gatepass_course,
     item.gatepass_section,
     item.gatepass_historyDate,
   ]);
 
-  const tableHeader = ['TUPT ID', 'Name', 'Course', 'Section', 'Date'];
+  const tableHeader = ['No', 'TUPT ID', 'Name', 'Course', 'Section', 'Date'];
 
   return (
     <Document>

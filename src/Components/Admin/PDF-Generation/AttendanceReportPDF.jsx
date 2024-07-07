@@ -64,11 +64,13 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: 'row',
   },
-
   text: {
     fontSize: 10,
   },
   tableCol: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
     borderStyle: 'solid',
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -77,19 +79,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tableCol1: {
-    width: '16%',
+    width: '5%',
   },
   tableCol2: {
-    width: '32%',
-  },
-  tableCol3: {
     width: '16%',
   },
+  tableCol3: {
+    width: '27%',
+  },
   tableCol4: {
-    width: '12%',
+    width: '16%',
   },
   tableCol5: {
-    width: '24%',
+    width: '12%',
+  },
+  tableCol6: {
+    width: "24%",
   },
 });
 
@@ -104,16 +109,24 @@ const attendanceReportPDF = ({ data, selectedDate }) => {
     );
   }
 
-  const tableData = data.map((item) => [
+  // Sort data based on lastname in ascending order
+  const sortedData = data.sort((a, b) => {
+    if (a.attendance_Lastname < b.attendance_Lastname) return -1;
+    if (a.attendance_Lastname > b.attendance_Lastname) return 1;
+    return 0;
+  });
+
+  const tableData = sortedData.map((item, index) => [
+    index + 1,  // Auto-increment number
     item.attendance_tupId,
-    `${item.attendance_firstName} ${item.attendance_middleName} ${item.attendance_Lastname}`,
+    `${item.attendance_Lastname}, ${item.attendance_firstName} ${item.attendance_middleName} `,
     item.attendance_course,
     item.attendance_section,
     item.attendance_historyDate,
   ]);
 
-  const tableHeader = ['TUPT ID', 'Name', 'Course', 'Section', 'Date'];
-  const attendanceDescription = data[0].attendance_description;
+  const tableHeader = ['No', 'TUPT ID', 'Name', 'Course', 'Section', 'Date'];
+  const attendanceDescription = sortedData[0].attendance_description;
 
   return (
     <Document>

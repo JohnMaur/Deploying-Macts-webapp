@@ -3,8 +3,8 @@ import { Layout, Alert } from 'antd';
 import userImg from '../../../assets/user.png';
 import socketIOClient from 'socket.io-client';
 
-const gymServerUrl = 'wss://macts-backend-gym.onrender.com';
-const studentInfoServerUrl = 'https://macts-backend-webapp.onrender.com';
+const gymServerUrl = 'wss://macts-backend-gym-production.up.railway.app';
+const studentInfoServerUrl = 'https://macts-backend-webapp-production-0bd2.up.railway.app';
 const { Content: AntdContent } = Layout;
 
 const GymContentDashboard = ({ borderRadiusLG }) => {

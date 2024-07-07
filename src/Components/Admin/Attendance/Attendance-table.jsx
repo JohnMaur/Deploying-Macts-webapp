@@ -91,7 +91,7 @@ const Modal = ({ isVisible, onClose, addAttendance }) => {
       attendance_date: date,
     };
 
-    axios.post('https://macts-backend-webapp.onrender.com/add-Attendance', attendanceData)
+    axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/add-Attendance', attendanceData)
       .then(response => {
         console.log('Attendance added successfully');
         addAttendance(attendanceData); // Update attendance data in parent
@@ -106,7 +106,7 @@ const Modal = ({ isVisible, onClose, addAttendance }) => {
             fontSize: '20px', // Adjust font size
           },
         });
-      })
+      }) 
       .catch(error => {
         console.error('Error adding attendance:', error);
         message.error({
@@ -202,7 +202,7 @@ const AttendanceTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://macts-backend-webapp.onrender.com/attendance');
+        const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/attendance');
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
           key: item.attendance_id.toString(),

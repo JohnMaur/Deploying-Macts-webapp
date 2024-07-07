@@ -3,8 +3,8 @@ import { Layout, Alert } from 'antd';
 import userImg from '../../../assets/user.png';
 import socketIOClient from 'socket.io-client';
 
-const attendanceServer = 'wss://macts-backend-attendance.onrender.com';
-const studentInfoServerUrl = 'https://macts-backend-webapp.onrender.com';
+const attendanceServer = 'wss://macts-attendance-production.up.railway.app';
+const studentInfoServerUrl = 'https://macts-backend-webapp-production-0bd2.up.railway.app';
 const { Content: AntdContent } = Layout;
 
 const TeacherContent = ({ borderRadiusLG }) => {

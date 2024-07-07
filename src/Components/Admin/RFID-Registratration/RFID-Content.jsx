@@ -5,7 +5,7 @@ import copyIcon from "../../../assets/copy.png"
 import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
-const serverUrl = 'wss://macts-backend-rfid-registration.onrender.com';
+const serverUrl = 'wss://rfiddevice-registrationserver-production.up.railway.app';
 
 const RFID_Content = ({ borderRadiusLG }) => {
   const [tagHistory, setTagHistory] = useState([]);
@@ -35,7 +35,7 @@ const RFID_Content = ({ borderRadiusLG }) => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`https://macts-backend-webapp.onrender.com/rfidRegistration/studentInfo?tuptId=${searchValue}`);
+      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/studentInfo?tuptId=${searchValue}`);
       const studentData = response.data;
       setStudentInfo(studentData);
     } catch (error) {
@@ -52,7 +52,7 @@ const RFID_Content = ({ borderRadiusLG }) => {
       }
 
       // Make a POST request to insert the RFID tag value into the database
-      const response = await axios.post(`https://macts-backend-webapp.onrender.com/rfidRegistration/${searchValue}`, {
+      const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/${searchValue}`, {
         tagValue: rfidTagValue
       });
 

@@ -14,7 +14,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { SearchOutlined } from '@ant-design/icons';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -100,10 +100,23 @@ const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
         setCode(''); // Clear code input
         setDate(''); // Clear date input
         onClose();
-        alert('Attendance added successfully');
+        message.success({
+          content: 'Attendance added successfully',
+          duration: 3, // Duration in seconds
+          style: {
+            fontSize: '20px', // Adjust font size
+          },
+        });
       })
       .catch(error => {
         console.error('Error adding attendance:', error);
+        message.error({
+          content: 'Failed to add attendance',
+          duration: 3, // Duration in seconds
+          style: {
+            fontSize: '16px', // Adjust font size
+          },
+        });
       });
   };
 
@@ -148,7 +161,7 @@ const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
             ADD
           </button>
           <button
-            className="text-white bg-blue-500 hover:bg-blue-700 active:opacity-40 transition-all font-bold py-2 px-4 rounded mr-2"
+            className="text-white bg-red-500 hover:bg-red-700 active:opacity-40 transition-all font-bold py-2 px-4 rounded mr-2"
             onClick={onClose}
           >
             Close

@@ -21,7 +21,7 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
   const fetchData = (date) => {
     setLoading(true); // Set loading state to true
     const formattedDate = moment(date).format('YYYY-MM-DD'); // Format the selected date
-    fetch(`https://macts-backend-webapp.onrender.com/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
+    fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
       .then((response) => response.json()) // Parse JSON response
       .then((data) => {
         setData(data); // Set the data to state

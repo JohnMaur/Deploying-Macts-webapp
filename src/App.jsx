@@ -22,6 +22,7 @@ import AttendancePageReport from './Components/Admin/Attendance/Report/Attendanc
 
 import RFID_page from './Components/Admin/RFID-Registratration/RFID-Page';
 import DevicePageRegistration from './Components/Admin/Device-Registration/Device-page';
+import WifiLandingPage from './Components/Admin/ChangeWifi/Wifi-landingPage';
 
 // Admin Report Route
 import AdminLibraryReport from './Components/Admin/Report/Library/Library-page';
@@ -37,6 +38,7 @@ import FacultyAddAttendancePage from './Components/Faculty/Teacher/AddAttendance
 import FacultyAttendancePageReport from './Components/Faculty/Teacher/Report/Attendance-page-report';
 import Teacher_RFID_page from './Components/Faculty/Teacher/Teacher-RFID-Registration';
 import TeacherDownloadApp from './Components/Faculty/Teacher/Teacher-MobileAppPage';
+import TeacherChangeWifi from './Components/Faculty/Teacher/TeacherChangeWifi';
 
 // Librarian import
 import Librarian_landingPage from './Components/Faculty/Librarian/Librarian_landing_page';
@@ -86,6 +88,7 @@ function App() {
 
       <Route path="/Registration/RFID" element={<ProtectedRoute element={RFID_page} />} />
       <Route path="/Registration/Device" element={<ProtectedRoute element={DevicePageRegistration} />} />
+      {/* <Route path="/Change/configuration" element={<ProtectedRoute element={WifiLandingPage} />} /> */}
 
       <Route path="/Download/mobileApplication" element={<ProtectedRoute element={DownloadAppPage} />} />
 
@@ -98,6 +101,7 @@ function App() {
       <Route path="/attendance_report/:attendance_code/:userId" element={<ProtectedRoute element={FacultyAttendancePageReport} />} />
       <Route path="Faculty/RFID_Registration/:userId" element={<ProtectedRoute element={Teacher_RFID_page} />} />
       <Route path="Faculty/MobileApp/:userId" element={<ProtectedRoute element={TeacherDownloadApp} />} />
+      <Route path="Teacher/Wificonfig/:userId" element={<ProtectedRoute element={TeacherChangeWifi} />} />
 
       // Librarian Route
       <Route path="/dashboard/Library" element={<ProtectedRoute element={Librarian_landingPage} />} />

@@ -17,7 +17,7 @@ const LibraryContent = ({ colorBgContainer, borderRadiusLG }) => {
   const fetchData = (date) => {
     setLoading(true);
     const formattedDate = moment(date).format('YYYY-MM-DD');
-    fetch(`https://macts-backend-webapp.onrender.com/Library-Report/pdf?date=${formattedDate}`)
+    fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Library-Report/pdf?date=${formattedDate}`)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
