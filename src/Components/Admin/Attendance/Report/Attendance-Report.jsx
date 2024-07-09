@@ -18,24 +18,49 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
   const { attendance_code } = useParams(); // Extract attendance_code from the URL parameters
 
   // Function to fetch data from the backend
+  // const fetchData = (date) => {
+  //   setLoading(true); // Set loading state to true
+  //   const formattedDate = moment(date).format('YYYY-MM-DD'); // Format the selected date
+  //   fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
+  //     .then((response) => response.json()) // Parse JSON response
+  //     .then((data) => {
+  //       setData(data); // Set the data to state
+  //       setLoading(false); // Set loading state to false
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error); // Handle errors
+  //       setLoading(false); // Set loading state to false
+  //     });
+  // };
+
   const fetchData = (date) => {
-    setLoading(true); // Set loading state to true
-    const formattedDate = moment(date).format('YYYY-MM-DD'); // Format the selected date
-    fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`) // Fetch data from the API
-      .then((response) => response.json()) // Parse JSON response
+    setLoading(true);
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+    fetch(`https://macts-backend-webapp-production-0bd2.up.railway.app/Attendance-Report/pdf?date=${formattedDate}&attendance_code=${attendance_code}`)
+      .then((response) => response.json())
       .then((data) => {
-        setData(data); // Set the data to state
-        setLoading(false); // Set loading state to false
+        setData(data);
+        setLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error); // Handle errors
-        setLoading(false); // Set loading state to false
+        console.error('Error fetching data:', error);
+        setLoading(false);
       });
   };
-
+  
   // Use effect to fetch data when selectedDate or attendance_code changes
   useEffect(() => {
     fetchData(selectedDate);
+  }, [selectedDate, attendance_code]);
+
+  // Set interval to fetch data periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData(selectedDate);
+    }, 5000); // Fetch data every 60 seconds
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
   }, [selectedDate, attendance_code]);
 
   return (
@@ -84,7 +109,6 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
           )
         )}
       </div>
-      
     </AntdContent>
   );
 };
