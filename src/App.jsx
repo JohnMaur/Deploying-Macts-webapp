@@ -88,7 +88,7 @@ function App() {
 
       <Route path="/Registration/RFID" element={<ProtectedRoute element={RFID_page} />} />
       <Route path="/Registration/Device" element={<ProtectedRoute element={DevicePageRegistration} />} />
-      {/* <Route path="/Change/configuration" element={<ProtectedRoute element={WifiLandingPage} />} /> */}
+      <Route path="/Change/configuration" element={<ProtectedRoute element={WifiLandingPage} />} />
 
       <Route path="/Download/mobileApplication" element={<ProtectedRoute element={DownloadAppPage} />} />
 
