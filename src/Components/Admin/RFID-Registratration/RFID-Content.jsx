@@ -5,7 +5,7 @@ import copyIcon from "../../../assets/copy.png"
 import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
-const serverUrl = 'wss://rfiddevice-registrationserver-production.up.railway.app';
+const serverUrl = 'wss://macts-backend-rfid-registration-production.up.railway.app';
 
 const RFID_Content = ({ borderRadiusLG }) => {
   const [tagHistory, setTagHistory] = useState([]);
