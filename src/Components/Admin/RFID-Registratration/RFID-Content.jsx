@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import socketIOClient from 'socket.io-client';
 import { Layout, message } from 'antd';
-import copyIcon from "../../../assets/copy.png"
+import copyIcon from "../../../assets/copy.png";
 import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
@@ -22,8 +22,8 @@ const RFID_Content = ({ borderRadiusLG }) => {
     socket.on('tagData', receivedData => {
       // Update the tagHistory state with the new tag data and timestamp
       setTagHistory(prevHistory => [
-        ...prevHistory,
-        { tagData: receivedData, timestamp: new Date().toLocaleTimeString() }
+        { tagData: receivedData, timestamp: new Date().toLocaleTimeString() },
+        ...prevHistory // Prepend new data
       ]);
     });
 
