@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const attendanceReportPDF = ({ data, selectedDate }) => {
+const AttendanceReportPDF = ({ data }) => {
   if (!data || !Array.isArray(data) || data.length === 0) {
     return (
       <Document>
@@ -147,7 +147,7 @@ const attendanceReportPDF = ({ data, selectedDate }) => {
         </View>
 
         <Text style={styles.settingSubject}>
-          {attendanceDescription} - {new Date(selectedDate).toLocaleDateString()}
+          Attendance - {attendanceDescription}
         </Text>
         <View style={styles.section}>
           <View style={styles.table}>
@@ -174,4 +174,4 @@ const attendanceReportPDF = ({ data, selectedDate }) => {
   );
 };
 
-export default attendanceReportPDF;
+export default AttendanceReportPDF;
