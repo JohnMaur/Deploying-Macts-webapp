@@ -101,7 +101,7 @@ function App() {
       <Route path="/attendance_report/:attendance_code/:userId" element={<ProtectedRoute element={FacultyAttendancePageReport} />} />
       <Route path="Faculty/RFID_Registration/:userId" element={<ProtectedRoute element={Teacher_RFID_page} />} />
       <Route path="Faculty/MobileApp/:userId" element={<ProtectedRoute element={TeacherDownloadApp} />} />
-      <Route path="Teacher/Wificonfig/:userId" element={<ProtectedRoute element={TeacherChangeWifi} />} />
+      <Route path="Teacher/Wificonfig/:userId" element={<ProtectedRoute element={TeacherChangeWifi} />} /> 
 
       // Librarian Route
       <Route path="/dashboard/Library" element={<ProtectedRoute element={Librarian_landingPage} />} />

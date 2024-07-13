@@ -32,7 +32,7 @@ const DownloadAppContent = ({ borderRadiusLG, colorBgContainer }) => {
           <p className='font-bold text-xl'>MACTs</p>
           <a 
             className='text-xl text-blue-600'
-            href='https://expo.dev/accounts/johnmaur8/projects/Macts/builds/40b83d38-e483-4b0b-b54e-53d6bed3e1da' 
+            href='https://expo.dev/accounts/johnmaur8/projects/Macts/builds/72c060a7-f9c9-452b-8fb9-1d1bd08ddcb5' 
             target='_blank' 
             rel='noopener noreferrer
           '>

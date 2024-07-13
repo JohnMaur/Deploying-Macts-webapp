@@ -67,8 +67,8 @@ const TeacherSidebar = ({ collapsed }) => {
           <Link to="/Teacher/Wificonfig/:userId">Change WiFi Info</Link>
         </Menu.Item> */}
 
-        <Menu.Item key="/Faculty/MobileApp/:userId" icon={<MobileOutlined />}>
-          <Link to="/Faculty/MobileApp/:userId">Download Mobile App</Link>
+        <Menu.Item key={`/Faculty/MobileApp/${userId}`} icon={<MobileOutlined />}>
+          <Link to={`/Faculty/MobileApp/${userId}`}>Download Mobile App</Link>
         </Menu.Item>
 
         <Menu.Item key="/logout" icon={<LogoutOutlined />} onClick={handleLogout}>

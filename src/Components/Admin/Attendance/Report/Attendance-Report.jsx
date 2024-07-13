@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import AttendanceReportTable from './Attendance-report-table';
 import AttendanceReportPDF from '../../PDF-Generation/AttendanceReportPDF';
 import ManualAddingAttendancePage from './ManualAddingPage';
+import AttendanceCodeSolo from './AttendanceCode/AttendanceCodeSolo';
 import axios from 'axios';  // Import axios for making HTTP requests
 
 const { Content: AntdContent } = Layout;
@@ -60,10 +61,18 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
     >
       <div className="mb-6">
         <AttendanceReportTable />
-        <ManualAddingAttendancePage />
+        <div className='my-5 w-full'>
+          <AttendanceCodeSolo />
+          
+        </div>
+ 
+        <div className='my-5 shadow-md p-5 w-1/3 rounded-md'>
+          <p className='mb-2'>Manually Adding Attendance</p>
+          <ManualAddingAttendancePage />
+        </div>
       </div>
 
-      <div className="mb-6">
+      <div className="mb-6 flex justify-end">
         {loading ? (
           <p>Loading data...</p>
         ) : (

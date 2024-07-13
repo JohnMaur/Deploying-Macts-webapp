@@ -13,15 +13,30 @@ const TeacherContent = ({ borderRadiusLG }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [lastTapTime, setLastTapTime] = useState(null);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const [tapInterval, setTapInterval] = useState(60000); // default to 1 minute
   const timeoutRef = useRef(null);
   const alertTimeoutRef = useRef(null);
+
+  useEffect(() => {
+    const fetchTapInterval = async () => {
+      try {
+        const response = await fetch(`${studentInfoServerUrl}/settings`);
+        const data = await response.json();
+        setTapInterval(data.tapInterval);
+      } catch (error) {
+        console.error('Error fetching tap interval:', error);
+      }
+    };
+
+    fetchTapInterval();
+  }, []);
 
   useEffect(() => {
     const socket = socketIOClient(attendanceServer);
 
     socket.on('tagData', receivedData => {
       const now = new Date();
-      if (lastTapTime && now - lastTapTime < 60000 && receivedData === currentTagData) {
+      if (lastTapTime && now - lastTapTime < tapInterval && receivedData.tagData === currentTagData) {
         setIsAlertVisible(true);
         if (alertTimeoutRef.current) {
           clearTimeout(alertTimeoutRef.current);
@@ -32,12 +47,12 @@ const TeacherContent = ({ borderRadiusLG }) => {
         return;
       }
 
-      isValidTagData(receivedData).then((isValid) => {
+      isValidTagData(receivedData.tagData).then((isValid) => {
         if (isValid) {
-          setCurrentTagData(receivedData);
+          setCurrentTagData(receivedData.tagData);
           setCurrentTime(now.toLocaleString());
           setLastTapTime(now);
-          fetchStudentInfo(receivedData);
+          fetchStudentInfo(receivedData.tagData);
         }
       });
     });
@@ -51,13 +66,13 @@ const TeacherContent = ({ borderRadiusLG }) => {
         clearTimeout(timeoutRef.current);
       }
     };
-  }, [lastTapTime, currentTagData]);
+  }, [lastTapTime, currentTagData, tapInterval]);
 
   const isValidTagData = async (tagData) => {
     try {
-      const response = await fetch(`${studentInfoServerUrl}/studentinfo`);
+      const response = await fetch(`${studentInfoServerUrl}/studentInfo`);
       const data = await response.json();
-      const isValid = data.some(student => student.tagValue === tagData);
+      const isValid = data.some(student => student.attendance_code && student.tagValue === tagData);
       return isValid;
     } catch (error) {
       console.error('Error fetching student information:', error);
@@ -67,9 +82,9 @@ const TeacherContent = ({ borderRadiusLG }) => {
 
   const fetchStudentInfo = async (tagData) => {
     try {
-      const response = await fetch(`${studentInfoServerUrl}/studentinfo`);
+      const response = await fetch(`${studentInfoServerUrl}/studentInfo`);
       const data = await response.json();
-      const matchedStudent = data.find(student => student.tagValue === tagData);
+      const matchedStudent = data.find(student => student.attendance_code && student.tagValue === tagData);
 
       if (matchedStudent) {
         setCurrentStudentInfo(matchedStudent);
@@ -110,7 +125,7 @@ const TeacherContent = ({ borderRadiusLG }) => {
         }}>
           <Alert
             message="Duplicate Tap Detected"
-            description="You've already tapped your RFID card. Please wait for a minute before tapping again."
+            description="You've already tapped your RFID card. Please wait for a moment before tapping again."
             type="warning"
             showIcon
           />
