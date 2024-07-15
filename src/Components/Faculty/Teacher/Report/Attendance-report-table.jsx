@@ -18,6 +18,7 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Table } from 'antd';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import copyIcon from "../../../../assets/copy.png"
 
 const DragIndexContext = createContext({
   active: -1,
@@ -36,11 +37,11 @@ const dragActiveStyle = (dragState, id) => {
     style =
       direction === 'right'
         ? {
-            borderRight: '1px dashed gray',
-          }
+          borderRight: '1px dashed gray',
+        }
         : {
-            borderLeft: '1px dashed gray',
-          };
+          borderLeft: '1px dashed gray',
+        };
   }
   return style;
 };
@@ -60,10 +61,10 @@ const TableHeaderCell = (props) => {
     cursor: 'move',
     ...(isDragging
       ? {
-          position: 'relative',
-          zIndex: 9999,
-          userSelect: 'none',
-        }
+        position: 'relative',
+        zIndex: 9999,
+        userSelect: 'none',
+      }
       : {}),
     ...dragActiveStyle(dragState, props.id),
   };
@@ -157,6 +158,14 @@ const FacultyAttendanceReportTable = () => {
     setSearchText(searchText);
   };
 
+  const handleCopy = () => {
+    navigator.clipboard.writeText(attendance_code).then(() => {
+      console.log("Attendance code copied to clipboard!");
+    }).catch(err => {
+      console.error("Failed to copy attendance code: ", err);
+    });
+  };  
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -197,7 +206,19 @@ const FacultyAttendanceReportTable = () => {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <p className="text-xl font-bold mb-2">Attendance</p>
+        <div className='flex'>
+          <p className="text-xl font-bold mb-2">Attendance - </p>
+          <button className='text-xl font-bold mb-2 flex items-center'>
+            {attendance_code}
+            <img
+              src={copyIcon}
+              alt="Copy Icon" 
+              className='ml-1 w-5 h-5 hover:bg-gray-200 hover:rounded-md hover:shadow-md active:opacity-40'
+              onClick={handleCopy}
+            />
+          </button>
+        </div>
+
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
           <div className="rounded-sm shadow-md border-[1px] border-solid border-gray-500 focus:outline-none">
             <input
