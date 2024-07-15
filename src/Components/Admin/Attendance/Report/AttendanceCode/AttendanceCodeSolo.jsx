@@ -31,7 +31,10 @@ const AttendanceCodeSolo = () => {
 
     try {
       const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentsByAttendanceCode/${attendanceCode}`);
-      setStudentsWithAttendanceCode(response.data);
+      const sortedStudents = response.data.sort((a, b) =>
+        a.studentInfo_last_name.localeCompare(b.studentInfo_last_name)
+      );
+      setStudentsWithAttendanceCode(sortedStudents);
     } catch (error) {
       setError('Error fetching students with attendance code.');
       console.error('Error fetching students with attendance code:', error);
@@ -127,13 +130,12 @@ const AttendanceCodeSolo = () => {
         />
       </Modal>
 
-      <div className='shadow-md p-5 rounded-md w-1/3'> 
+      <div className='shadow-md p-5 rounded-md w-1/3'>
         <p className='my-2'>List of students who have joined the class</p>
         <Button className='font-bold' type="primary" onClick={showAttendanceListModal}>
           Show
         </Button>
       </div>
-
     </div>
   );
 };

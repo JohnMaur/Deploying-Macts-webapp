@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Input, Button, List, Spin, Alert, message } from 'antd';
+import { Modal, Input, Button, List, Spin, Alert } from 'antd';
 import axios from 'axios';
 
 const LargeDataSearchModal = ({ visible, onClose, onSubmit }) => {
@@ -19,7 +19,10 @@ const LargeDataSearchModal = ({ visible, onClose, onSubmit }) => {
 
       try {
         const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/getStudentsBySection/${value}`);
-        setStudents(response.data);
+        const sortedStudents = response.data.sort((a, b) =>
+          a.studentInfo_last_name.localeCompare(b.studentInfo_last_name)
+        );
+        setStudents(sortedStudents);
       } catch (err) {
         setError('Error fetching students.');
         setStudents([]);
