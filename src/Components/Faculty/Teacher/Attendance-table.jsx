@@ -92,7 +92,7 @@ const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
       userId: userId, // Include userId
     };
 
-    axios.post('https://macts-backend-webapp.onrender.com/Facultyadd-Attendance', attendanceData)
+    axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyadd-Attendance', attendanceData)
       .then(response => {
         console.log('Attendance added successfully');
         addAttendance(attendanceData); // Update attendance data in parent
@@ -180,7 +180,7 @@ const FacultyAttendanceTable = () => {
     active: -1,
     over: -1,
   });
-  const [columns, setColumns] = useState([
+  const [columns, setColumns] = useState([ 
     {
       title: 'Attendance Description',
       dataIndex: 'attendance_description',
@@ -205,7 +205,7 @@ const FacultyAttendanceTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://macts-backend-webapp.onrender.com/Facultyattendance/${userId}`);
+        const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyattendance/${userId}`);
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
           key: item.attendance_id.toString(),
