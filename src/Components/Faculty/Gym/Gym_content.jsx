@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Layout, Alert } from 'antd';
 import userImg from '../../../assets/user.png';
 import socketIOClient from 'socket.io-client';
 
+// const gymServerUrl = 'wss://macts-backend-gym-production.up.railway.app';
 const gymServerUrl = 'wss://macts-backend-gym-production.up.railway.app';
 const studentInfoServerUrl = 'https://macts-backend-webapp-production-0bd2.up.railway.app';
 const { Content: AntdContent } = Layout;
@@ -14,48 +15,42 @@ const GymContentDashboard = ({ borderRadiusLG }) => {
   const [currentTime, setCurrentTime] = useState('');
   const [lastTapTime, setLastTapTime] = useState(null);
   const [isAlertVisible, setIsAlertVisible] = useState(false);
+  const timeoutRef = useRef(null);
+  const alertTimeoutRef = useRef(null);
 
   useEffect(() => {
     const socket = socketIOClient(gymServerUrl);
 
     socket.on('tagData', receivedData => {
-      console.log('Received tag data:', receivedData);
-
       const now = new Date();
-      if (lastTapTime && now - lastTapTime < 60000 && receivedData === currentTagData) {
+      setCurrentTime(now.toLocaleString());
+
+      if (receivedData.excessiveTap) {
         setIsAlertVisible(true);
-        setTimeout(() => {
+        if (alertTimeoutRef.current) {
+          clearTimeout(alertTimeoutRef.current);
+        }
+        alertTimeoutRef.current = setTimeout(() => {
           setIsAlertVisible(false);
         }, 5000); // Hide alert after 5 seconds
-        return;
+      } else {
+        setCurrentTagData(receivedData.tagData);
+        setCurrentTapStatus(receivedData.tapStatus);
+        fetchStudentInfo(receivedData.tagData);
+        setLastTapTime(now);
       }
-
-      isValidTagData(receivedData).then((isValid) => {
-        if (isValid) {
-          setCurrentTagData(receivedData);
-          setCurrentTime(now.toLocaleString()); // Update current time when tagData changes
-          fetchStudentInfo(receivedData);
-          setLastTapTime(now);
-        }
-      });
     });
 
     return () => {
       socket.disconnect();
+      if (alertTimeoutRef.current) {
+        clearTimeout(alertTimeoutRef.current);
+      }
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
     };
-  }, [lastTapTime, currentTagData]);
-
-  const isValidTagData = async (tagData) => {
-    try {
-      const response = await fetch(`${studentInfoServerUrl}/studentinfo`);
-      const data = await response.json();
-      const isValid = data.some(student => student.tagValue === tagData);
-      return isValid;
-    } catch (error) {
-      console.error('Error fetching student information:', error);
-      return false;
-    }
-  };
+  }, [lastTapTime]);
 
   const fetchStudentInfo = async (tagData) => {
     try {
@@ -65,38 +60,21 @@ const GymContentDashboard = ({ borderRadiusLG }) => {
 
       if (matchedStudent) {
         setCurrentStudentInfo(matchedStudent);
-        fetchTapStatus(matchedStudent.user_id);
 
-        // Clear the data after 1 minute
-        setTimeout(() => {
+        // Clear the data after 10 seconds
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+        timeoutRef.current = setTimeout(() => {
           setCurrentStudentInfo(null);
           setCurrentTapStatus('');
-        }, 60000);
+        }, 10000);
       } else {
         setCurrentStudentInfo(null);
         setCurrentTapStatus('');
       }
     } catch (error) {
       console.error('Error fetching student information:', error);
-    }
-  };
-
-  const fetchTapStatus = async (userId) => {
-    try {
-      // Introduce a delay of 1 second (adjust as needed)
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const response = await fetch(`${studentInfoServerUrl}/gym_status`);
-      const tapStatusData = await response.json();
-
-      if (tapStatusData.user_id === userId) {
-        const status = tapStatusData.gym_OutHistoryDate ? 'Out' : (tapStatusData.gym_InHistoryDate ? 'In' : '');
-        setCurrentTapStatus(status);
-      } else {
-        setCurrentTapStatus('');
-      }
-    } catch (error) {
-      console.error('Error fetching tap status:', error);
     }
   };
 
