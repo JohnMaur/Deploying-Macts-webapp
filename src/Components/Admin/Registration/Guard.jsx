@@ -16,9 +16,10 @@ const GuardRegistration = ({ borderRadiusLG }) => {
       message.error('Passwords do not match');
       return;
     }
-  
+
     // Proceed with signup
-    fetch('https://macts-backend-webapp-production-0bd2.up.railway.app/GuardSignUp', {
+    // fetch('https://macts-backend-webapp-production-0bd2.up.railway.app/GuardSignUp', {
+    fetch('https://macts-backend-webapp.onrender.com/GuardSignUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -53,8 +54,8 @@ const GuardRegistration = ({ borderRadiusLG }) => {
         message.error('Error signing up'); // Display generic error message
       });
   };
-  
-  
+
+
 
   return (
     <AntdContent

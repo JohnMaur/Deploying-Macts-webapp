@@ -1,22 +1,32 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import {
-  closestCenter,
-  DndContext,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
-import {
-  arrayMove,
-  horizontalListSortingStrategy,
-  SortableContext,
-  useSortable,
-} from '@dnd-kit/sortable';
-import { SearchOutlined } from '@ant-design/icons';
-import { Table, message } from 'antd';
+import React, { useState, useEffect, createContext, useContext } from 'react';
+import Modal from 'react-modal';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
+import { message } from 'antd';
+import { closestCenter, DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
+import { restrictToHorizontalAxis } from '@dnd-kit/modifiers';
+import { arrayMove, horizontalListSortingStrategy, SortableContext, useSortable } from '@dnd-kit/sortable';
+import { SearchOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
 import { useNavigate } from 'react-router-dom';
+
+const customModalStyles = {
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 10000,
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    maxWidth: '80%',
+    width: '600px',
+  },
+};
 
 const DragIndexContext = createContext({
   active: -1,
@@ -70,17 +80,15 @@ const TableHeaderCell = (props) => {
   return <th {...props} ref={setNodeRef} style={style} {...attributes} {...listeners} />;
 };
 
-const Modal = ({ isVisible, onClose, addAttendance }) => {
+const AddAttendanceModal = ({ isVisible, onClose, addAttendance }) => {
   const [description, setDescription] = useState('');
   const [code, setCode] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     if (isVisible) {
       const randomCode = Math.random().toString(36).slice(2);
       setCode(randomCode);
-      const currentDate = new Date().toLocaleString();
-      setDate(currentDate);
     }
   }, [isVisible]);
 
@@ -88,16 +96,17 @@ const Modal = ({ isVisible, onClose, addAttendance }) => {
     const attendanceData = {
       attendance_description: description,
       attendance_code: code,
-      attendance_date: date,
+      attendance_date: date.toLocaleString(),
     };
 
-    axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/add-Attendance', attendanceData)
+    // axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/add-Attendance', attendanceData)
+    axios.post('https://macts-backend-webapp.onrender.com/add-Attendance', attendanceData)
       .then(response => {
         console.log('Attendance added successfully');
         addAttendance(attendanceData); // Update attendance data in parent
         setDescription(''); // Clear description input
         setCode(''); // Clear code input
-        setDate(''); // Clear date input
+        setDate(new Date()); // Reset date input
         onClose();
         message.success({
           content: 'Attendance added successfully',
@@ -106,7 +115,7 @@ const Modal = ({ isVisible, onClose, addAttendance }) => {
             fontSize: '20px', // Adjust font size
           },
         });
-      }) 
+      })
       .catch(error => {
         console.error('Error adding attendance:', error);
         message.error({
@@ -144,12 +153,15 @@ const Modal = ({ isVisible, onClose, addAttendance }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Date Created</label>
-          <input
-            type="text"
+          <label className="block text-gray-700 mb-2">Raise Period Date</label>
+          <DatePicker
+            selected={date}
+            onChange={(date) => setDate(date)}
+            showTimeSelect
+            timeFormat="h:mm aa"
+            timeIntervals={15}
+            dateFormat="MMMM d, yyyy h:mm aa"
             className="w-full p-2 border border-gray-300 rounded"
-            value={date}
-            readOnly
           />
         </div>
         <div className="flex justify-end">
@@ -189,7 +201,7 @@ const AttendanceTable = () => {
       key: 'attendance_code',
     },
     {
-      title: 'Date',
+      title: 'Raise Period Date',
       dataIndex: 'attendance_date',
       key: 'attendance_date',
     },
@@ -202,7 +214,8 @@ const AttendanceTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/attendance');
+        // const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/attendance');
+        const response = await axios.get('https://macts-backend-webapp.onrender.com/attendance');
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
           key: item.attendance_id.toString(),
@@ -347,7 +360,7 @@ const AttendanceTable = () => {
           </SortableContext>
         </DragIndexContext.Provider>
       </DndContext>
-      <Modal isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} addAttendance={addAttendance} />
+      <AddAttendanceModal isVisible={isModalVisible} onClose={() => setIsModalVisible(false)} addAttendance={addAttendance} />
     </div>
   );
 };

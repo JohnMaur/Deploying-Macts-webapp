@@ -5,7 +5,8 @@ import axios from 'axios';
 import copyIcon from "../../../assets/copy.png";
 
 const { Content: AntdContent } = Layout;
-const serverUrl = 'wss://rfiddevice-registrationserver-production.up.railway.app';
+// const serverUrl = 'wss://rfiddevice-registrationserver-production.up.railway.app';
+const serverUrl = 'wss://macts-backend-webapp.onrender.com';
 
 const DeviceRegistration = () => {
   const [tagHistory, setTagHistory] = useState([]);
@@ -31,7 +32,8 @@ const DeviceRegistration = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/deviceRegistration?serialNumber=${searchValue}`);
+      // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/deviceRegistration?serialNumber=${searchValue}`);
+      const response = await axios.get(`https://macts-backend-webapp.onrender.com/deviceRegistration?serialNumber=${searchValue}`);
       const studentDevice = response.data;
       setDeviceInfo(studentDevice);
     } catch (error) {
@@ -48,7 +50,8 @@ const DeviceRegistration = () => {
         return;
       }
 
-      const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/deviceRegistration/${searchValue}`, {
+      // const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/deviceRegistration/${searchValue}`, {
+      const response = await axios.post(`https://macts-backend-webapp.onrender.com/deviceRegistration/${searchValue}`, {
         deviceCode: deviceCodeValue
       });
 

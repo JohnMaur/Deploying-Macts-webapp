@@ -21,7 +21,9 @@ function AdminLogin() {
     event.preventDefault();
     setLoading(true); // Set loading to true when the request starts
     try {
-      const response = await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/admin', {
+      // const response = await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/admin', {
+      // const response = await axios.post('http://localhost:2526/admin', {
+      const response = await axios.post('https://macts-backend-webapp.onrender.com/admin', {
         admin_username: adminUsername,
         admin_password: adminPassword,
       });
@@ -48,7 +50,7 @@ function AdminLogin() {
 
         <div className='form-container'>
           <div className="slide-controls">
-            <input type="radio" name="slide" id="login"/>
+            <input type="radio" name="slide" id="login" />
             <input type="radio" name="slide" id="signup" />
             <label htmlFor="login" className="slide login">MACTs</label>
             <label htmlFor="signup" className="slide signup">Admin</label>

@@ -35,11 +35,11 @@ const dragActiveStyle = (dragState, id) => {
     style =
       direction === 'right'
         ? {
-            borderRight: '1px dashed gray',
-          }
+          borderRight: '1px dashed gray',
+        }
         : {
-            borderLeft: '1px dashed gray',
-          };
+          borderLeft: '1px dashed gray',
+        };
   }
   return style;
 };
@@ -59,10 +59,10 @@ const TableHeaderCell = (props) => {
     cursor: 'move',
     ...(isDragging
       ? {
-          position: 'relative',
-          zIndex: 9999,
-          userSelect: 'none',
-        }
+        position: 'relative',
+        zIndex: 9999,
+        userSelect: 'none',
+      }
       : {}),
     ...dragActiveStyle(dragState, props.id),
   };
@@ -106,8 +106,9 @@ const RegistrarTable = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try { 
-        const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/Registrar-Report');
+      try {
+        // const response = await axios.get('https://macts-backend-webapp-production-0bd2.up.railway.app/Registrar-Report');
+        const response = await axios.get('https://macts-backend-webapp.onrender.com/Registrar-Report');
         const responseData = response.data;
         const transformedData = responseData.map((item, index) => ({
           key: `${index + 1}`,

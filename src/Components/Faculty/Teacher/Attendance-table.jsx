@@ -17,6 +17,8 @@ import { SearchOutlined } from '@ant-design/icons';
 import { Table, message } from 'antd';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import 'react-datepicker/dist/react-datepicker.css';
+import DatePicker from 'react-datepicker';
 
 const DragIndexContext = createContext({
   active: -1,
@@ -73,14 +75,12 @@ const TableHeaderCell = (props) => {
 const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
   const [description, setDescription] = useState('');
   const [code, setCode] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date());
 
   useEffect(() => {
     if (isVisible) {
       const randomCode = Math.random().toString(36).slice(2);
       setCode(randomCode);
-      const currentDate = new Date().toLocaleString();
-      setDate(currentDate);
     }
   }, [isVisible]);
 
@@ -88,17 +88,18 @@ const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
     const attendanceData = {
       attendance_description: description,
       attendance_code: code,
-      attendance_date: date,
+      attendance_date: date.toLocaleString(),
       userId: userId, // Include userId
     };
 
-    axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyadd-Attendance', attendanceData)
+    // axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyadd-Attendance', attendanceData)
+    axios.post('https://macts-backend-webapp.onrender.com/Facultyadd-Attendance', attendanceData)
       .then(response => {
         console.log('Attendance added successfully');
         addAttendance(attendanceData); // Update attendance data in parent
         setDescription(''); // Clear description input
         setCode(''); // Clear code input
-        setDate(''); // Clear date input
+        setDate(new Date()); // Reset date input
         onClose();
         message.success({
           content: 'Attendance added successfully',
@@ -145,12 +146,15 @@ const Modal = ({ isVisible, onClose, addAttendance, userId }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Date Created</label>
-          <input
-            type="text"
+          <label className="block text-gray-700 mb-2">Raise Period Date</label>
+          <DatePicker
+            selected={date}
+            onChange={(date) => setDate(date)}
+            showTimeSelect
+            timeFormat="h:mm aa"
+            timeIntervals={15}
+            dateFormat="MMMM d, yyyy h:mm aa"
             className="w-full p-2 border border-gray-300 rounded"
-            value={date}
-            readOnly
           />
         </div>
         <div className="flex justify-end">
@@ -192,7 +196,7 @@ const FacultyAttendanceTable = () => {
       key: 'attendance_code',
     },
     {
-      title: 'Date',
+      title: 'Raise Period Date',
       dataIndex: 'attendance_date',
       key: 'attendance_date',
     },
@@ -205,7 +209,8 @@ const FacultyAttendanceTable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyattendance/${userId}`);
+        // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/Facultyattendance/${userId}`);
+        const response = await axios.get(`https://macts-backend-webapp.onrender.com/Facultyattendance/${userId}`);
         const responseData = response.data;
         const transformedData = responseData.map((item) => ({
           key: item.attendance_id.toString(),

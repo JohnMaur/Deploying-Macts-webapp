@@ -18,7 +18,8 @@ const AttendanceModal = ({ visible, onClose, onSubmit }) => {
       setError(null);
 
       try {
-        const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/getAttendanceCode/studentinfo/${value}`);
+        // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/getAttendanceCode/studentinfo/${value}`);
+        const response = await axios.get(`https://macts-backend-webapp.onrender.com/getAttendanceCode/studentinfo/${value}`);
         setStudentInfo(response.data);
       } catch (err) {
         setError('Error fetching student info.');

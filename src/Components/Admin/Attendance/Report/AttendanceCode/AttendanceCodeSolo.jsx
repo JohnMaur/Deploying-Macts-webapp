@@ -30,7 +30,8 @@ const AttendanceCodeSolo = () => {
     setError(null);
 
     try {
-      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentsByAttendanceCode/${attendanceCode}`);
+      // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentsByAttendanceCode/${attendanceCode}`);
+      const response = await axios.get(`https://macts-backend-webapp.onrender.com/studentsByAttendanceCode/${attendanceCode}`);
       const sortedStudents = response.data.sort((a, b) =>
         a.studentInfo_last_name.localeCompare(b.studentInfo_last_name)
       );
@@ -58,7 +59,8 @@ const AttendanceCodeSolo = () => {
 
   const handleAttendanceFormSubmit = async ({ tuptId, attendanceCode }) => {
     try {
-      await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendanceCode/studentinfo/${tuptId}`, {
+      // await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendanceCode/studentinfo/${tuptId}`, {
+      await axios.post(`https://macts-backend-webapp.onrender.com/attendanceCode/studentinfo/${tuptId}`, {
         attendance_code: attendanceCode,
       });
       message.success('Attendance code updated successfully');
@@ -70,7 +72,8 @@ const AttendanceCodeSolo = () => {
 
   const handleLargeDataSearchFormSubmit = async ({ section, attendanceCode }) => {
     try {
-      await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/updateAttendanceCodeBySection`, {
+      // await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/updateAttendanceCodeBySection`, {
+      await axios.post(`https://macts-backend-webapp.onrender.com/updateAttendanceCodeBySection`, {
         section,
         attendance_code: attendanceCode,
       });

@@ -18,7 +18,8 @@ const LargeDataSearchModal = ({ visible, onClose, onSubmit }) => {
       setError(null);
 
       try {
-        const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/getStudentsBySection/${value}`);
+        // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/getStudentsBySection/${value}`);
+        const response = await axios.get(`https://macts-backend-webapp.onrender.com/getStudentsBySection/${value}`);
         const sortedStudents = response.data.sort((a, b) =>
           a.studentInfo_last_name.localeCompare(b.studentInfo_last_name)
         );

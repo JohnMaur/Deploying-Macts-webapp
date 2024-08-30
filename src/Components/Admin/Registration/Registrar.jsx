@@ -18,7 +18,8 @@ const RegistrarRegistration = ({ borderRadiusLG }) => {
     }
 
     // Proceed with signup
-    fetch('https://macts-backend-webapp-production-0bd2.up.railway.app/registrarSignUp', {
+    // fetch('https://macts-backend-webapp-production-0bd2.up.railway.app/registrarSignUp', {
+    fetch('https://macts-backend-webapp.onrender.com/registrarSignUp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

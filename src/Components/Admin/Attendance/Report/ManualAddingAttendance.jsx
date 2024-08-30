@@ -19,6 +19,7 @@ const customModalStyles = {
     transform: 'translate(-50%, -50%)',
     maxWidth: '80%',
     width: '600px',
+    overflow: 'visible', // Ensure the content is not cut off
   },
 };
 
@@ -34,7 +35,8 @@ const ManualAddingAttendance = ({ isOpen, onRequestClose }) => {
     }
 
     try {
-      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentinfo/${tuptId}`);
+      // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/studentinfo/${tuptId}`);
+      const response = await axios.get(`https://macts-backend-webapp.onrender.com/studentinfo/${tuptId}`);
       setStudentInfo(response.data);
     } catch (error) {
       console.error('Error fetching student info:', error);
@@ -67,7 +69,8 @@ const ManualAddingAttendance = ({ isOpen, onRequestClose }) => {
       };
 
       try {
-        await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Manual/attendance', attendanceData);
+        // await axios.post('https://macts-backend-webapp-production-0bd2.up.railway.app/Manual/attendance', attendanceData);
+        await axios.post('https://macts-backend-webapp.onrender.com/Manual/attendance', attendanceData);
 
         // Show success message
         message.success({
@@ -153,10 +156,12 @@ const ManualAddingAttendance = ({ isOpen, onRequestClose }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700">Date</label>
+          <label className="block text-sm font-medium text-gray-700">Date and Time</label>
           <DatePicker
             selected={date}
             onChange={(date) => setDate(date)}
+            showTimeSelect
+            dateFormat="Pp"
             className="mt-1 block w-full border-[1px] border-gray-400 rounded-md shadow-sm p-2"
           />
           <div className="mt-2 text-sm text-gray-500">Selected Date: {formattedDate}</div>

@@ -18,7 +18,8 @@ const AttendanceReport = ({ colorBgContainer, borderRadiusLG }) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendance/report/${attendance_code}`);
+      // const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/attendance/report/${attendance_code}`);
+      const response = await axios.post(`https://macts-backend-webapp.onrender.com/attendance/report/${attendance_code}`);
       const fetchedData = response.data;
 
       // Filter out duplicate records based on attendance_tupId

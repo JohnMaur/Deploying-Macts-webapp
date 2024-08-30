@@ -5,14 +5,15 @@ import copyIcon from "../../../assets/copy.png";
 import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
-const serverUrl = 'wss://macts-backend-rfid-registration-production.up.railway.app';
+// const serverUrl = 'wss://macts-backend-rfid-registration-production.up.railway.app';
+const serverUrl = 'wss://macts-backend-webapp.onrender.com';
 
 const RFID_Content = ({ borderRadiusLG }) => {
   const [tagHistory, setTagHistory] = useState([]);
   const [studentInfo, setStudentInfo] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [rfidTagValue, setRfidTagValue] = useState('');
-  const [hoveredIndex, setHoveredIndex] = useState(null); 
+  const [hoveredIndex, setHoveredIndex] = useState(null);
 
   useEffect(() => {
     // Connect to the Socket.IO server
@@ -35,7 +36,8 @@ const RFID_Content = ({ borderRadiusLG }) => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/studentInfo?tuptId=${searchValue}`);
+      // const response = await axios.get(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/studentInfo?tuptId=${searchValue}`);
+      const response = await axios.get(`https://macts-backend-webapp.onrender.com/rfidRegistration/studentInfo?tuptId=${searchValue}`);
       const studentData = response.data;
       setStudentInfo(studentData);
     } catch (error) {
@@ -52,7 +54,8 @@ const RFID_Content = ({ borderRadiusLG }) => {
       }
 
       // Make a POST request to insert the RFID tag value into the database
-      const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/${searchValue}`, {
+      // const response = await axios.post(`https://macts-backend-webapp-production-0bd2.up.railway.app/rfidRegistration/${searchValue}`, {
+      const response = await axios.post(`https://macts-backend-webapp.onrender.com/rfidRegistration/${searchValue}`, {
         tagValue: rfidTagValue
       });
 
