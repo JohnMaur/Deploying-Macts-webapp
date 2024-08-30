@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const { Content: AntdContent } = Layout;
 // const serverUrl = 'wss://macts-backend-rfid-registration-production.up.railway.app';
-const serverUrl = 'wss://macts-backend-webapp.onrender.com';
+const serverUrl = 'wss://macts-backend-rfid-registration.onrender.com';
 
 const RFID_Content = ({ borderRadiusLG }) => {
   const [tagHistory, setTagHistory] = useState([]);
