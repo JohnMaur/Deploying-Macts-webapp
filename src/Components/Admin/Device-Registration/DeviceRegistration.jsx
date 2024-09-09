@@ -6,7 +6,7 @@ import copyIcon from "../../../assets/copy.png";
 
 const { Content: AntdContent } = Layout;
 // const serverUrl = 'wss://rfiddevice-registrationserver-production.up.railway.app';
-const serverUrl = 'wss://macts-backend-webapp.onrender.com';
+const serverUrl = 'wss://macts-backend-device-registration.onrender.com';
 
 const DeviceRegistration = () => {
   const [tagHistory, setTagHistory] = useState([]);
